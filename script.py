@@ -22,24 +22,32 @@ scraper = webdriver.Chrome(service = browser_driver, options = chrome_options)
 
 # Getting page for scraping
 scraper.get("https://webscraper.io/test-sites/e-commerce/static/computers/laptops")
-
+my_list = []
+my_set={}
 # Grabbing computer/laptop information
 unique_id = 1
 while True:
     machines = scraper.find_elements(By.CLASS_NAME,"thumbnail")
     for machine in machines:
-        name = machine.find_element(By.XPATH,"/html/body/div[1]/div[3]/div/div[2]/div/div[1]/div/div[1]/h4[2]/a")
-        price = machine.find_element(By.CLASS_NAME, "price")
-        specs = machine.find_element(By.CLASS_NAME, "description")
-        reviews = machine.find_element(By.XPATH, "/html/body/div[1]/div[3]/div/div[2]/div/div[1]/div/div[2]/p[1]")
-        # print([name.text, price.text, specs.text,reviews.text[0]])
-        writer.writerow([name.text, price.text, specs.text,reviews.text[0]])
+        name = machine.find_element(By.CLASS_NAME,"title").get_attribute("title")
+        price = machine.find_element(By.CLASS_NAME, "price").text
+        specs = machine.find_element(By.CLASS_NAME, "description").text
+        reviews = machine.find_element(By.CLASS_NAME, "ratings").text.split(" ")[0]
+        my_list.append([name, price, specs,reviews])
+        writer.writerow([name, price, specs,reviews])
         unique_id += 1
     try: 
         element = scraper.find_element(By.PARTIAL_LINK_TEXT,"›")
         element.click()
+        test_div = 1
     except NoSuchElementException:
         break
+
+# Converting list into set to check length
+my_tuple= set(map(tuple,my_list))
+
+print(len(my_list))
+print(len(my_tuple))
 
 file.close()
 scraper.close()
