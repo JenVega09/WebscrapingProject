@@ -23,7 +23,6 @@ scraper = webdriver.Chrome(service = browser_driver, options = chrome_options)
 # Getting page for scraping
 scraper.get("https://webscraper.io/test-sites/e-commerce/static/computers/laptops")
 my_list = []
-my_set={}
 # Grabbing computer/laptop information
 unique_id = 1
 while True:
