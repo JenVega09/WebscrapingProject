@@ -20,10 +20,18 @@ writer.writerow(["Name", "Price", "Specifications","Number of Reviews"])
 browser_driver = Service("C:\src\Webscraping\chromedriver")
 scraper = webdriver.Chrome(service = browser_driver, options = chrome_options)
 
-# Getting page for scraping
+# Getting page for scraping & creating empty list
 scraper.get("https://webscraper.io/test-sites/e-commerce/static/computers/laptops")
 my_list = []
-scraper.find_element(By.CLASS_NAME, "acceptCookies").click()
+# Waiting for the page to load
+wait = WebDriverWait(scraper, 5)
+element_to_watch=scraper.find_element(By.CLASS_NAME, "acceptCookies")
+wait.until(EC.visibility_of(element_to_watch))
+element_to_watch.click()
+           
+# Accepting cookies pop up window
+# scraper.find_element(By.CLASS_NAME, "acceptCookies").click()
+
 # Grabbing computer/laptop information
 unique_id = 1
 while True:
