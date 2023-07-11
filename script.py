@@ -23,6 +23,7 @@ scraper = webdriver.Chrome(service = browser_driver, options = chrome_options)
 # Getting page for scraping
 scraper.get("https://webscraper.io/test-sites/e-commerce/static/computers/laptops")
 my_list = []
+scraper.find_element(By.CLASS_NAME, "acceptCookies").click()
 # Grabbing computer/laptop information
 unique_id = 1
 while True:
